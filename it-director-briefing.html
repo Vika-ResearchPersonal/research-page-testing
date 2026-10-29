@@ -1,130 +1,99 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>AI Software Factory</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;700&display=swap" rel="stylesheet">
-<script>document.documentElement.classList.add('js')</script>
+<title>AI Software Factory — IT Director briefing</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#18191b;--surface:#222427;--surface-2:#2a2c30;--ink:#eff0f1;--muted:#9c9ea3;--accent:#ff4a1f;--accent-ink:#18191b;--field-1:#eff0f1;--field-1-ink:#18191b;--field-1-muted:#4f5257;--field-1-surface:#ffffff;
---font:'Jost',system-ui,sans-serif;--step-small:clamp(.8125rem,.79rem + .1vw,.875rem);--step-body:clamp(1.0625rem,1rem + .25vw,1.1875rem);--step-lead:clamp(1.25rem,1.1rem + .7vw,1.625rem);--step-head:clamp(2rem,1.3rem + 3.2vw,4rem);--ui:14px;
---margin:clamp(1.25rem,2.4vw,2.5rem);--gutter:clamp(1rem,2vw,2rem);--ease-out:cubic-bezier(.22,1,.36,1);--ease-expo:cubic-bezier(.16,1,.3,1)}
-*,*::before,*::after{box-sizing:border-box}
-html{height:100%;scroll-snap-type:y mandatory;scroll-behavior:smooth;scrollbar-gutter:stable both-edges;scrollbar-width:thin}
-body{margin:0;height:100%;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:var(--step-body);line-height:1.5;-webkit-font-smoothing:antialiased}
-h1,h2,h3,p{margin:0}
-p{max-width:62ch;text-wrap:pretty}
-.bar{position:fixed;top:0;left:0;right:0;height:44px;background:var(--accent);color:var(--accent-ink);z-index:5;display:flex;align-items:center;justify-content:space-between;padding:0 var(--margin);font-weight:500;font-size:var(--step-body)}
-.bar nav{display:flex;gap:22px}.bar a{color:inherit;text-decoration:none}.bar a:hover{text-decoration:underline}
-.screen{height:100svh;position:relative;scroll-snap-align:start;padding:72px var(--margin) 32px;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));grid-template-rows:minmax(0,1fr);column-gap:var(--gutter)}
-.screen.light{background:var(--field-1);color:var(--field-1-ink)}
-.screen.light .muted{color:var(--field-1-muted)}
-.copy{grid-column:1/6;display:flex;flex-direction:column;justify-content:flex-end;gap:24px;min-width:0;min-height:0}
-.fig{grid-column:6/13;min-width:0;min-height:0;height:100%;display:flex;align-items:stretch}
-.fig>*{height:100%}
-.head{font-size:var(--step-head);font-weight:700;text-transform:uppercase;letter-spacing:-.03em;line-height:.92;max-width:22ch;text-wrap:balance}
-.lines .line{display:block;overflow:hidden;padding-bottom:.08em;margin-bottom:-.08em}.lines [data-line]{display:block}
-.lead{font-size:var(--step-lead);line-height:1.35;max-width:38ch}
-.muted{color:var(--muted)}
-.claims{display:flex;flex-direction:column;gap:18px}
-.claims p{max-width:46ch}
-.claims strong{font-weight:500;display:block}
-.chip{display:inline-block;font-size:var(--step-small);font-weight:500;line-height:1.3;padding:1px 8px;border-radius:999px;vertical-align:middle;margin-left:4px}
-.chip.ai{background:var(--surface-2);color:var(--ink)}.chip.human{background:var(--accent);color:var(--accent-ink)}
-.light .chip.ai{background:#dfe1e4;color:var(--field-1-ink)}
-.btn{display:inline-block;background:var(--accent);color:var(--accent-ink);font-weight:500;padding:12px 22px;text-decoration:none;transition:transform 140ms var(--ease-out),filter 180ms;align-self:flex-start}
-.btn:hover{filter:brightness(1.08)}.btn:active{transform:scale(.97)}
-.btn.ghost{background:var(--ink);color:var(--bg)}.light .btn.ghost{background:var(--field-1-ink);color:var(--field-1)}
-/* fragments */
-[data-ui]{font-size:var(--ui);line-height:1.4}
-.stage{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(280px,.8fr);gap:8px;width:100%;min-height:0}
-.panel{background:var(--surface);display:flex;flex-direction:column;min-height:0;overflow:hidden}
-.panel-h{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;font-weight:500;background:var(--surface-2)}
-.scroll{overflow-y:auto;scrollbar-width:thin}
-.row{display:grid;grid-template-columns:28px 1fr auto;gap:12px;padding:10px 16px;align-items:start}
-.row+.row{box-shadow:inset 0 1px 0 var(--surface-2)} /* taste-skill-ignore: inside data-ui fragment */
-.row.new{background:rgba(255,74,31,.10)}
-.av{width:24px;height:24px;border-radius:70% 30% 60% 40%/60% 40% 60% 40%;display:block;margin-top:3px}
-.who{font-weight:500}.role{color:var(--muted);font-weight:400;margin-left:6px}.msg{color:var(--muted);max-width:none}
-.ts{color:var(--muted);font-size:13px;padding-top:2px}
-.gate{margin:8px 12px 0;padding:10px 12px 10px 14px;background:var(--surface-2);display:flex;flex-direction:column;gap:4px;border-left:4px solid var(--muted)}
-.gate strong{font-weight:500}.gate span{color:var(--muted)}
-.gate.done{border-left-color:#4fb07a}.gate.auto{border-left-color:#4f9de6}.gate.pend{border-left-color:var(--accent)}.gate.deny{border-left-color:#d85454}
-.gate .btns{display:flex;gap:8px;margin-top:6px}
-.gate .btns button{font-weight:500;padding:5px 14px;border-radius:999px;background:var(--surface);color:var(--ink);transition:transform 140ms var(--ease-out),filter 180ms;cursor:pointer;border:0}
-.gate .btns button.go{background:var(--accent);color:var(--accent-ink)}
-.gate .btns button:hover{filter:brightness(1.1)}.gate .btns button:active{transform:scale(.96)}
-.gate.resolved .btns{display:none}
-.note{margin:14px 16px 16px;color:var(--muted);font-size:var(--step-small);max-width:none}
-.frame{width:100%;background:var(--field-1-surface);display:flex;min-height:0}
-.frame iframe{width:100%;height:100%;min-height:520px;border:0;display:block}
-.side{display:grid;grid-template-rows:minmax(0,1.15fr) auto;gap:8px;width:100%;min-height:0}
-.stack{width:100%;display:flex;align-items:center;justify-content:center;background:var(--surface);padding:12px;min-height:0;overflow:hidden}
-.stack svg{width:100%;height:100%;max-height:100%}
-.conn table{width:100%;border-collapse:collapse}.conn th,.conn td{text-align:left;padding:7px 16px;border-top:1px solid var(--surface-2)}.conn th{color:var(--muted);font-weight:500}.conn td.ok{color:#4fb07a}.conn td.no{color:#f0948a}
-.foot{padding:20px var(--margin);color:var(--muted);font-size:var(--step-small);background:var(--surface)}
-/* entrances */
-@media (prefers-reduced-motion:no-preference){
-  .js .lines [data-line]{transform:translateY(105%);animation:line-up 900ms var(--ease-expo) forwards;animation-delay:calc(var(--i)*110ms + 150ms)}
-  .js [data-rise]{opacity:0;transform:translateY(24px);transition:opacity 700ms var(--ease-out),transform 700ms var(--ease-out);transition-delay:calc(var(--i,0)*80ms)}
-  .js [data-rise].in{opacity:1;transform:none}
-  .js .row{transition:background 400ms}
-}
-@keyframes line-up{to{transform:none}}
-@media (max-width:900px){
-  .screen{grid-template-columns:1fr;grid-template-rows:auto;padding:72px var(--margin) 40px;height:auto;min-height:auto;scroll-snap-align:none}
-  .copy,.fig{grid-column:1}.copy{order:1;justify-content:flex-start}.fig{order:2;margin-top:28px;height:auto}.fig>*{height:auto}
-  .side{grid-template-rows:auto auto}.stack svg{height:auto}
-  .stage{grid-template-columns:1fr}.scroll{max-height:420px}
-  .head{max-width:none}.frame iframe{height:520px;min-height:0}.conn{overflow-x:auto}
-}
-@media print{html{scroll-snap-type:none}.screen{page-break-after:always;min-height:100svh}.bar{position:absolute}}
-</style></head><body>
-<div class="bar"><span>AI Software Factory</span><nav><a href="#build">Team</a><a href="#govern">Governance</a><a href="#integrate">Platforms</a></nav></div>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--paper:#f5f5f5;--paper-2:#ffffff;--ink:#2d3142;--muted:#4f5d75;--soft:#5a6580;--rule:rgba(45,49,66,.12);--accent:#bf4520;--accent-tint:rgba(191,69,32,.08);--sans:'Geist',system-ui,sans-serif;--serif:'Instrument Serif',Georgia,serif;--mono:'Geist Mono',ui-monospace,monospace}
+html,body{height:100%}
+body{font-family:var(--sans);background:var(--paper);color:var(--ink);overflow:hidden}
+.deck{height:100%;position:relative}
+.slide{position:absolute;inset:0;display:none;padding:40px 56px 56px;flex-direction:column;gap:18px}
+.slide.active{display:flex}
+.head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;border-bottom:1px solid var(--rule);padding-bottom:12px}
+.eyebrow{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+h1{font-family:var(--serif);font-weight:400;font-size:clamp(26px,3.2vw,42px);line-height:1.08;letter-spacing:-.02em;max-width:30ch;text-wrap:balance}
+.num{font-family:var(--mono);font-size:12px;color:var(--muted);white-space:nowrap}
+.body{flex:1;min-height:0;display:grid;grid-template-columns:minmax(260px,.9fr) minmax(0,1.6fr);gap:32px;align-items:stretch}
+.points{display:flex;flex-direction:column;gap:14px;align-self:center}
+.point{display:grid;grid-template-columns:28px 1fr;gap:12px;align-items:start}
+.point b{display:block;font-size:15px;font-weight:600;margin-bottom:2px}
+.point p{font-size:13.5px;line-height:1.45;color:var(--muted)}
+.point .k{font-family:var(--mono);font-size:10px;color:var(--accent);letter-spacing:.1em;padding-top:4px}
+.chip{display:inline-block;font-family:var(--mono);font-size:9px;letter-spacing:.12em;padding:1px 6px;border-radius:2px;margin-left:8px;vertical-align:middle;border:1px solid}
+.chip.ai{color:#2e5aa8;border-color:#2e5aa8;background:rgba(46,90,168,.08)}.chip.human{color:var(--accent);border-color:var(--accent);background:var(--accent-tint)}
+.who{display:flex;gap:8px;font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--muted);margin-top:-4px}
+.fig{min-width:0;min-height:0;background:var(--paper-2);border:1px solid var(--rule);border-radius:6px;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
+.fig svg{width:100%;height:100%;max-height:100%}
+.fig iframe{width:100%;height:100%;border:0;background:#fff}
+.fig .cap{position:absolute;left:12px;bottom:8px;font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--soft);background:rgba(255,255,255,.85);padding:2px 6px;border-radius:2px}
+.takeaway{border-left:3px solid var(--accent);background:var(--accent-tint);padding:10px 14px;font-family:var(--serif);font-style:italic;font-size:17px;line-height:1.3}
+.nav{position:fixed;right:24px;bottom:18px;display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11px;color:var(--muted)}
+.nav button{font:inherit;border:1px solid var(--rule);background:#fff;color:var(--ink);padding:5px 10px;border-radius:4px;cursor:pointer}
+.nav button:hover{border-color:var(--ink)}
+.dots{display:flex;gap:6px}.dots i{width:7px;height:7px;border-radius:50%;background:var(--rule);display:block}.dots i.on{background:var(--accent)}
+.hint{position:fixed;left:24px;bottom:18px;font-family:var(--mono);font-size:10px;color:var(--soft);letter-spacing:.08em}
 
-<section class="screen" id="build" aria-label="Everyone can build apps">
-  <div class="copy">
-    <h1 class="head lines"><span class="line"><span data-line style="--i:0">Everyone can</span></span><span class="line"><span data-line style="--i:1">build apps</span></span></h1>
-    <p class="lead muted" data-rise style="--i:1">A business user describes the outcome. A virtual team of specialist agents builds it. IT decides every gate.</p>
-    <div class="claims" data-rise style="--i:2">
-      <p><strong>The request is plain language <span class="chip human">Human</span></strong>"Build an onboarding app for HR with document upload, departmental approvals and monthly reports." No coding, no backlog queue.</p>
-      <p><strong>Fifteen specialists do the work <span class="chip ai">AI</span></strong>Analyst, architect, designer, developers, QA, security, independent reviewer, DevOps, release, SRE: the same organisation as a human team, exchanging versioned artifacts rather than chat.</p>
-      <p><strong>Every decision stays with people <span class="chip human">Human</span></strong>Agents report and request. Try it: authorize the release on the right and watch the team respond.</p>
+.mock{grid-template-columns:minmax(240px,.62fr) minmax(0,1.15fr) minmax(280px,.72fr)}
+.points.compact .point p{font-size:12.5px}.points.compact .point b{font-size:14px}.points.compact .takeaway{font-size:15px}
+.note-l{margin:12px 12px 0;font-family:var(--serif);font-style:italic;font-size:14px;color:var(--muted)}
+.chat,.gov{background:var(--paper-2);border:1px solid var(--rule);border-radius:6px;display:flex;flex-direction:column;min-height:0;overflow:hidden}
+.chat-h,.gov-h{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-bottom:1px solid var(--rule);font-weight:600;font-size:13px}
+.chat{overflow-y:auto}
+.row{display:grid;grid-template-columns:30px 1fr auto;gap:10px;padding:7px 14px;border-bottom:1px solid var(--rule);align-items:start}
+.av{width:26px;height:26px;border-radius:70% 30% 60% 40%/60% 40% 60% 40%;display:block;margin-top:2px}
+.rt b{font-size:13px}.rt em{font-style:normal;color:var(--muted);font-size:12px;margin-left:8px}.rt p{font-size:12px;color:var(--muted);line-height:1.35;margin-top:1px}
+.ts{font-family:var(--mono);font-size:10px;color:var(--soft);padding-top:3px}
+.gov{padding-bottom:12px}
+.gate{margin:8px 12px 0;padding:8px 10px;border:1px solid var(--rule);border-left-width:3px;border-radius:4px;font-size:12px;display:flex;flex-direction:column;gap:2px}
+.gate b{font-size:12.5px}.gate span{color:var(--muted)}
+.gate.done{border-left-color:#2f9a5a}.gate.auto{border-left-color:#2e5aa8}.gate.pend{border-left-color:var(--accent);background:var(--accent-tint)}.gate.deny{border-left-color:#c43c3c;background:rgba(196,60,60,.06)}
+.btns{display:flex;gap:6px;margin-top:4px}.btns i{font-style:normal;font-size:11px;padding:2px 10px;border-radius:3px;border:1px solid var(--accent);color:var(--accent);background:#fff}.btns i:first-child{background:var(--accent);color:#fff}
+.gov .takeaway{margin:12px 12px 0;font-size:15px}
+@media (max-width:900px){body{overflow:auto}.slide{position:static;display:flex;min-height:100vh;padding:24px 20px 64px}.body,.mock{grid-template-columns:1fr}.chat{max-height:480px}.fig{min-height:360px}.nav,.hint{display:none}}
+@media print{body{overflow:visible}.slide{position:static;display:flex;height:100vh;page-break-after:always}.nav,.hint{display:none}}
+</style></head><body>
+<div class="deck">
+
+<section class="slide active" id="s1">
+  <div class="head"><div><p class="eyebrow">AI Software Factory · 1 of 3</p><h1>Everyone can build applications: specialist agents do the work, you govern</h1></div><span class="num">01 / 03</span></div>
+  <div class="body mock">
+    <div class="points compact">
+      <div class="point"><span class="k">01</span><div><b>Describe the outcome<span class="chip human">HUMAN</span></b><p>A business user says what they need in plain language. No coding, no backlog queue.</p></div></div>
+      <div class="point"><span class="k">02</span><div><b>A full virtual team builds it<span class="chip ai">AI</span></b><p>A Lead Agent runs 14 specialists (analyst, architect, designer, developers, QA, security, reviewer, DevOps, release, SRE), the OpenMausBot-style agent-team model.</p></div></div>
+      <div class="point"><span class="k">03</span><div><b>IT keeps every decision<span class="chip human">HUMAN</span></b><p>Agents report and request; people approve PRD, design, UAT, exceptions and the production release. Artifacts, not chat, move between agents.</p></div></div>
+      <div class="takeaway">The business gets a team. IT gets the same artifacts and sign-offs it would demand from a human team.</div>
     </div>
-    <a class="btn" href="#govern" data-rise style="--i:3">See how IT governs it</a>
-  </div>
-  <div class="fig" data-rise style="--i:2">
-    <div class="stage" data-ui>
-      <div class="panel"><div class="panel-h"><span>Employee Onboarding App</span><span class="muted">15 agents</span></div><div class="scroll" id="chat"><div class="row"><span class="av" style="background:#8a7bd6"></span><div><p class="who"><strong>Lead</strong> <span class="role">Coordinator</span> <span class="chip ai">AI</span></p><p class="msg">Work breakdown done: 7 items linked to user stories. Nothing touches production before G7.</p></div><span class="ts nums">17:58</span></div><div class="row"><span class="av" style="background:#e0a23a"></span><div><p class="who"><strong>Business Analyst</strong> <span class="role">Requirements</span> <span class="chip ai">AI</span></p><p class="msg">PRD v1.1 reflects all five owner decisions; retention and SLA ownership added. Baseline approved.</p></div><span class="ts nums">09:41</span></div><div class="row"><span class="av" style="background:#c07aa8"></span><div><p class="who"><strong>Product Manager</strong> <span class="role">Scope</span> <span class="chip ai">AI</span></p><p class="msg">MVP: registration, upload, approvals, tracking. Reporting export stays in 1.0 per owner decision.</p></div><span class="ts nums">09:58</span></div><div class="row"><span class="av" style="background:#e9684c"></span><div><p class="who"><strong>Architect</strong> <span class="role">Solution design</span> <span class="chip ai">AI</span></p><p class="msg">Hybrid path in ADR-001: low-code for forms and approvals, a small native reporting service. Compatibility validated.</p></div><span class="ts nums">10:40</span></div><div class="row"><span class="av" style="background:#4fb07a"></span><div><p class="who"><strong>Designer</strong> <span class="role">UI and UX</span> <span class="chip ai">AI</span></p><p class="msg">Registration and approver-queue screens done. Blocked on brand tokens from IT.</p></div><span class="ts nums">11:12</span></div><div class="row"><span class="av" style="background:#d85454"></span><div><p class="who"><strong>Security</strong> <span class="role">Threat model, scans</span> <span class="chip ai">AI</span></p><p class="msg">Pipeline #55 failed SAST (F-101, F-102 high). Routed to Developer 2. Re-scan #58 clean.</p></div><span class="ts nums">14:02</span></div><div class="row"><span class="av" style="background:#4f9de6"></span><div><p class="who"><strong>Developer 1</strong> <span class="role">Low-code</span> <span class="chip ai">AI</span></p><p class="msg">Form, case model and approval workflow exported. PR #7 open, linked to EOB-10..12.</p></div><span class="ts nums">12:30</span></div><div class="row"><span class="av" style="background:#3b8fb8"></span><div><p class="who"><strong>Developer 2</strong> <span class="role">Backend</span> <span class="chip ai">AI</span></p><p class="msg">Fixed F-101 (parameterized queries) and F-102 (dependency upgrade) in PR #15. CI re-run requested.</p></div><span class="ts nums">13:45</span></div><div class="row"><span class="av" style="background:#45b3b9"></span><div><p class="who"><strong>Developer 3</strong> <span class="role">Frontend</span> <span class="chip ai">AI</span></p><p class="msg">Report export page ready, accessibility checks pass. PR #16 open.</p></div><span class="ts nums">13:50</span></div><div class="row"><span class="av" style="background:#86a84a"></span><div><p class="who"><strong>Data Engineer</strong> <span class="role">Schema</span> <span class="chip ai">AI</span></p><p class="msg">Reporting schema and read replica in migration 001. No production access, as designed.</p></div><span class="ts nums">12:05</span></div><div class="row"><span class="av" style="background:#d6b23a"></span><div><p class="who"><strong>Tester</strong> <span class="role">Verification</span> <span class="chip ai">AI</span></p><p class="msg">142 unit, 23 API, 13 end-to-end passing on run #58. 13 of 13 acceptance criteria traced.</p></div><span class="ts nums">15:05</span></div><div class="row"><span class="av" style="background:#cf5e8f"></span><div><p class="who"><strong>Reviewer</strong> <span class="role">Independent review</span> <span class="chip ai">AI</span></p><p class="msg">PR #14: off-by-one at month boundary, fixed in 9c1e2f. PII masked at query layer. Recommend approve.</p></div><span class="ts nums">14:40</span></div><div class="row"><span class="av" style="background:#3fb0a0"></span><div><p class="who"><strong>DevOps</strong> <span class="role">Platform</span> <span class="chip ai">AI</span></p><p class="msg">dev and uat provisioned, branch protection on. Production deploy needs a human authorization reference.</p></div><span class="ts nums">11:30</span></div><div class="row"><span class="av" style="background:#b08a4c"></span><div><p class="who"><strong>Release Manager</strong> <span class="role">Release</span> <span class="chip ai">AI</span></p><p class="msg">Evidence package assembled. I cannot authorize production; request sent to the Change Advisory Board.</p></div><span class="ts nums">17:40</span></div><div class="row"><span class="av" style="background:#7a93ab"></span><div><p class="who"><strong>SRE</strong> <span class="role">Operations</span> <span class="chip ai">AI</span></p><p class="msg">Monitoring templated for production. Health checks and SLO alerts ready to verify after deploy.</p></div><span class="ts nums">17:50</span></div></div></div>
-      <div class="panel"><div class="panel-h"><span>Your decisions</span><span class="chip human" style="margin:0">Human</span></div>
-        <div class="scroll" id="gates">
-          <div class="gate done"><strong>G1 · PRD v1.1</strong><span>Approved · Head of HR · 09:41</span></div>
-          <div class="gate done"><strong>G2 · Architecture and security design</strong><span>Approved · Architecture Board · 11:05</span></div>
-          <div class="gate auto"><strong>G4 · CI and security scans</strong><span>Run #55 failed (2 high) → fixed → run #58 passed · policy engine</span></div>
-          <div class="gate done"><strong>G6 · UAT sign-off</strong><span>Accepted · Head of HR · 15:20</span></div>
-          <div class="gate pend" id="gx"><strong>EX-01 · Risk exception, F-103 medium</strong><span>Waiting for Head of Application Security · expires 2027-01-31</span><div class="btns"><button class="go" data-act="ex-ok">Approve</button><button data-act="ex-no">Reject</button></div></div>
-          <div class="gate pend" id="g7"><strong>G7 · Production release 1.0.0</strong><span>Waiting for the Change Advisory Board · evidence package attached</span><div class="btns"><button class="go" data-act="g7-ok">Authorize</button><button data-act="g7-no">Reject</button></div></div>
-          <div class="gate deny"><strong>Denied · deploy.prod by Release Manager</strong><span>No human authorization reference. Blocked by the tool gateway, written to the audit log.</span></div>
-        </div>
-        <p class="note">Every message on the left is an agent reporting. Every button here is a person deciding. Simulated data.</p>
-      </div>
+    <div class="chat">
+      <div class="chat-h"><span>Employee Onboarding App</span><span class="chip ai" style="margin:0">14 AI SPECIALISTS</span></div>
+      <div class="row"><span class="av" style="background:#7b5cc4"></span><div class="rt"><div><b>Lead</b><em>Architect & coordinator</em><span class="chip ai">AI</span></div><p>Work breakdown done: 7 items linked to user stories. Waiting on G7 before anything touches production.</p></div><span class="ts">17:58</span></div><div class="row"><span class="av" style="background:#d08a2a"></span><div class="rt"><div><b>Business Analyst</b><em>Requirements owner</em><span class="chip ai">AI</span></div><p>PRD v1.1 now reflects all five owner decisions; retention period and SLA ownership added. Baseline approved.</p></div><span class="ts">09:41</span></div><div class="row"><span class="av" style="background:#b36a9a"></span><div class="rt"><div><b>Product Manager</b><em>Scope & priorities</em><span class="chip ai">AI</span></div><p>MVP: registration, upload, approvals, tracking. Reporting export stays in 1.0 per owner decision.</p></div><span class="ts">09:58</span></div><div class="row"><span class="av" style="background:#d9553a"></span><div class="rt"><div><b>Architect</b><em>Solution architect</em><span class="chip ai">AI</span></div><p>Hybrid path recorded in ADR-001: low-code for forms and approvals, small native reporting service. Compatibility validated.</p></div><span class="ts">10:40</span></div><div class="row"><span class="av" style="background:#2f9a5a"></span><div class="rt"><div><b>Designer</b><em>UI & UX designer</em><span class="chip ai">AI</span></div><p>Registration and approver-queue screens done. Step 3 blocked: need the brand tokens from IT.</p></div><span class="ts">11:12</span></div><div class="row"><span class="av" style="background:#c43c3c"></span><div class="rt"><div><b>Security</b><em>Threat model & scans</em><span class="chip ai">AI</span></div><p>Pipeline #55 failed SAST (F-101, F-102 high). Routed to Developer 2 with remediation guidance. Re-scan #58 clean.</p></div><span class="ts">14:02</span></div><div class="row"><span class="av" style="background:#3a8fd9"></span><div class="rt"><div><b>Developer 1</b><em>Low-code developer</em><span class="chip ai">AI</span></div><p>Form, case model and approval workflow exported from the platform. PR #7 open, linked EOB-10..12.</p></div><span class="ts">12:30</span></div><div class="row"><span class="av" style="background:#2a7fa3"></span><div class="rt"><div><b>Developer 2</b><em>Backend developer</em><span class="chip ai">AI</span></div><p>Fixed F-101 (parameterized queries) and F-102 (dependency upgrade) in PR #15. CI re-run requested.</p></div><span class="ts">13:45</span></div><div class="row"><span class="av" style="background:#3aa0a6"></span><div class="rt"><div><b>Developer 3</b><em>Frontend developer</em><span class="chip ai">AI</span></div><p>Report export page ready, accessibility checks pass locally. PR #16 open.</p></div><span class="ts">13:50</span></div><div class="row"><span class="av" style="background:#6a8f3c"></span><div class="rt"><div><b>Data Engineer</b><em>Schema & migrations</em><span class="chip ai">AI</span></div><p>Reporting schema and read replica in migration 001. No production access, as designed.</p></div><span class="ts">12:05</span></div><div class="row"><span class="av" style="background:#c9a227"></span><div class="rt"><div><b>Tester</b><em>Build & test verifier</em><span class="chip ai">AI</span></div><p>142 unit, 23 API, 13 e2e passing on run #58. 13/13 acceptance criteria traced to tests.</p></div><span class="ts">15:05</span></div><div class="row"><span class="av" style="background:#b84c7a"></span><div class="rt"><div><b>Reviewer</b><em>Independent code reviewer</em><span class="chip ai">AI</span></div><p>PR #14: off-by-one at month boundary, fixed in 9c1e2f. PII masked at query layer. Recommend approve.</p></div><span class="ts">14:40</span></div><div class="row"><span class="av" style="background:#2a9d8f"></span><div class="rt"><div><b>DevOps</b><em>Platform operator</em><span class="chip ai">AI</span></div><p>dev and uat provisioned, branch protection on. Production deploy needs a human authorization reference.</p></div><span class="ts">11:30</span></div><div class="row"><span class="av" style="background:#8a6d3b"></span><div class="rt"><div><b>Release Manager</b><em>Release coordination</em><span class="chip ai">AI</span></div><p>Evidence package assembled. I cannot authorize production; request sent to the Change Advisory Board.</p></div><span class="ts">17:40</span></div><div class="row"><span class="av" style="background:#5b7c99"></span><div class="rt"><div><b>SRE</b><em>Operations</em><span class="chip ai">AI</span></div><p>Monitoring templated for prod. Health checks and SLO alerts ready to verify after deploy.</p></div><span class="ts">17:50</span></div>
+    </div>
+    <div class="gov">
+      <div class="gov-h"><span>Your decisions</span><span class="chip human" style="margin:0">HUMAN GATES</span></div>
+      <div class="gate done"><b>G1 · PRD v1.1</b><span>Approved · Head of HR · 09:41</span></div>
+      <div class="gate done"><b>G2 · Architecture &amp; security design</b><span>Approved · Architecture Board · 11:05</span></div>
+      <div class="gate auto"><b>G4 · CI &amp; security scans</b><span>Run #55 failed (2 high) → fixed → run #58 passed · policy engine</span></div>
+      <div class="gate done"><b>G6 · UAT sign-off</b><span>Accepted · Head of HR · 15:20</span></div>
+      <div class="gate pend"><b>EX-01 · Risk exception (F-103 medium)</b><span>Waiting for Head of Application Security · expiry 2027-01-31</span><div class="btns"><i>Approve</i><i>Reject</i></div></div>
+      <div class="gate pend"><b>G7 · Production release 1.0.0</b><span>Waiting for Change Advisory Board · evidence package attached</span><div class="btns"><i>Authorize</i><i>Reject</i></div></div>
+      <div class="gate deny"><b>Denied · deploy.prod by Release Manager</b><span>No human authorization reference. Blocked by tool gateway, written to audit.</span></div>
+      <div class="note-l">Every message in the channel is an agent reporting. Every button here is a person deciding.</div>
     </div>
   </div>
 </section>
 
-<section class="screen light" id="govern" aria-label="IT governs every gate">
-  <div class="copy">
-    <h2 class="head" data-rise>IT governs every gate</h2>
-    <p class="lead muted" data-rise style="--i:1">Speed comes from the agents. Control comes from seven gates that read evidence, not claims.</p>
-    <div class="claims" data-rise style="--i:2">
-      <p><strong>Five gates are human <span class="chip human">Human</span></strong>PRD, architecture and security design, UAT, risk exceptions and the production release are decided by authenticated people. Agents can request; they can never approve.</p>
-      <p><strong>Two gates are policy <span class="chip ai">AI + policy</span></strong>CI results, SAST, SCA and secrets scans, SBOM, signed artifacts, test reports and review records are stored and evaluated by policy-as-code. An agent saying "it passed" changes nothing.</p>
-      <p><strong>Least privilege, separation of duties <span class="chip human">IT owns</span></strong>A developer agent opens a pull request but cannot merge it. Only the release pipeline, carrying a human authorization reference, deploys to production. Every action is audited; failures go back to the responsible agent.</p>
+<section class="slide" id="s2">
+  <div class="head"><div><p class="eyebrow">AI Software Factory · 2 of 3</p><h1>IT governs and secures the process, so what ships is good, secure and reliable</h1></div><span class="num">02 / 03</span></div>
+  <div class="body">
+    <div class="points">
+      <div class="point"><span class="k">01</span><div><b>Seven gates, five of them human<span class="chip human">HUMAN</span></b><p>PRD approval, architecture and security design, UAT sign-off, production release authorization and risk exceptions are decided by authenticated people. Agents request; they never approve.</p></div></div>
+      <div class="point"><span class="k">02</span><div><b>Gates read evidence, not claims<span class="chip ai">AI + POLICY</span></b><p>CI results, SAST/SCA/secrets scans, SBOM, signed artifacts, test reports and review records are stored and evaluated by policy-as-code. An agent saying "it passed" changes nothing.</p></div></div>
+      <div class="point"><span class="k">03</span><div><b>Least privilege and separation of duties<span class="chip human">IT OWNS</span></b><p>A developer agent can open a pull request but not merge it; nobody but the release pipeline, with a human authorization reference, can deploy to production. Every action is audited; failures return to the responsible agent.</p></div></div>
+      <div class="who"><span class="chip ai" style="margin:0">AI</span> analysis · design · code · tests · scans · release prep &nbsp;·&nbsp; <span class="chip human" style="margin:0">HUMAN</span> PRD · design · UAT · exceptions · production go</div><div class="takeaway">Speed from the agents. Control from the gates. Nothing bypasses governance because an AI generated it.</div>
     </div>
-    <a class="btn ghost" href="#integrate" data-rise style="--i:3">Where it runs</a>
-  </div>
-  <div class="fig" data-rise style="--i:2"><div class="frame" data-ui><iframe title="Governed SDLC state machine, interactive" srcdoc="<!DOCTYPE html>
+    <div class="fig"><iframe title="Governed SDLC state machine (Archify)" srcdoc="<!DOCTYPE html>
 <html lang=&quot;en&quot; data-theme=&quot;dark&quot; data-preset=&quot;classic&quot;>
-<head><script>try{localStorage.setItem(&quot;archify-theme&quot;,&quot;light&quot;)}catch(e){}</script>
+<head>
   <meta charset=&quot;UTF-8&quot;>
   <meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;>
   <meta name=&quot;generator&quot; content=&quot;archify 3.2.0&quot;>
@@ -15021,114 +14990,91 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
   </script>
 </body>
 </html>
-" loading="lazy"></iframe></div></div>
+" loading="lazy"></iframe><span class="cap">State machine · Archify (interactive)</span></div>
+  </div>
 </section>
 
-<section class="screen" id="integrate" aria-label="Runs on what you have">
-  <div class="copy">
-    <h2 class="head" data-rise>Runs on what you have</h2>
-    <p class="lead muted" data-rise style="--i:1">One governed gateway on top. Your choice of platform, runtime and tools underneath.</p>
-    <div class="claims" data-rise style="--i:2">
-      <p><strong>Low-code, native or hybrid, per application <span class="chip ai">AI proposes</span><span class="chip human">Human approves</span></strong>The architect agent weighs your approved low-code platform against native development and records the decision as an ADR; the architecture board approves it. Compatibility is validated, never assumed.</p>
-      <p><strong>Kubernetes, VMs, self-hosted or cloud <span class="chip human">IT chooses</span></strong>Dev, UAT and production stay isolated. Production credentials are never held by an agent.</p>
-      <p><strong>Connectors, not dependencies <span class="chip human">IT configures</span></strong>Git, Jira, your CI/CD, your scanners, your identity provider, your monitoring: each is a connector exposing authorized operations only. The models are swappable and can be self-hosted.</p>
+<section class="slide" id="s3">
+  <div class="head"><div><p class="eyebrow">AI Software Factory · 3 of 3</p><h1>Integrates with anything you already run</h1></div><span class="num">03 / 03</span></div>
+  <div class="body">
+    <div class="points">
+      <div class="point"><span class="k">01</span><div><b>Low-code, native or hybrid, per application<span class="chip ai">AI PROPOSES</span><span class="chip human">HUMAN APPROVES</span></b><p>The architect agent evaluates your approved low-code platform against native development and records the decision as an ADR; the architecture board approves it. Platform compatibility is validated, never assumed.</p></div></div>
+      <div class="point"><span class="k">02</span><div><b>Runs where you run<span class="chip human">IT CHOOSES</span></b><p>Kubernetes, existing VMs, self-hosted servers, private or public cloud. Dev, UAT and production stay isolated; production credentials are never held by an agent.</p></div></div>
+      <div class="point"><span class="k">03</span><div><b>Connectors, not dependencies<span class="chip human">IT CONFIGURES</span></b><p>Git/GitHub/GitLab, Jira, your CI/CD, your scanners, your identity provider, your monitoring: each is a connector with authorized operations only. The models themselves are swappable and can be self-hosted.</p></div></div>
+      <div class="takeaway">One governed gateway on top; your choice of platform, runtime and tools underneath.</div>
     </div>
-    <a class="btn" href="#build" data-rise style="--i:3">Back to the team</a>
-  </div>
-  <div class="fig" data-rise style="--i:2"><div class="side"><div class="stack" data-ui><svg viewBox="0 0 1000 540" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="int-layers-title int-layers-desc">
+    <div class="fig"><svg viewBox="0 0 1000 540" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="int-layers-title int-layers-desc">
       <title id="int-layers-title">Integration layer stack</title>
       <desc id="int-layers-desc">Six layers from the business request down to the organization's own platforms, with the governed tool gateway as the focal layer; every layer below it is interchangeable.</desc>
       <defs>
-        <pattern id="layers-dots" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="0.9" fill="rgba(239,240,241,.10)"/></pattern>
+        <pattern id="layers-dots" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="0.9" fill="rgba(45,49,66,0.10)"/></pattern>
       </defs>
-      <rect width="100%" height="100%" fill="#18191b"/>
+      <rect width="100%" height="100%" fill="#f5f5f5"/>
       <rect width="100%" height="100%" fill="url(#layers-dots)" opacity="0.55"/>
 
-      <text x="40" y="68" fill="#9c9ea3" font-size="8" font-family="'Jost', system-ui, sans-serif" letter-spacing="0.18em">BUSINESS</text>
-      <line x1="80" y1="80" x2="80" y2="464" stroke="rgba(239,240,241,.30)" stroke-width="1"/>
-      <polygon points="76,464 84,464 80,472" fill="#9c9ea3"/>
-      <text x="40" y="488" fill="#9c9ea3" font-size="8" font-family="'Jost', system-ui, sans-serif" letter-spacing="0.18em">YOUR PLATFORMS</text>
+      <text x="40" y="68" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.18em">BUSINESS</text>
+      <line x1="80" y1="80" x2="80" y2="464" stroke="rgba(45,49,66,0.30)" stroke-width="1"/>
+      <polygon points="76,464 84,464 80,472" fill="#4f5d75"/>
+      <text x="40" y="488" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.18em">YOUR PLATFORMS</text>
 
-      <line x1="120" y1="80" x2="960" y2="80" stroke="rgba(239,240,241,.12)" stroke-width="1"/>
-      <line x1="120" y1="464" x2="960" y2="464" stroke="rgba(239,240,241,.12)" stroke-width="1"/>
+      <line x1="120" y1="80" x2="960" y2="80" stroke="rgba(45,49,66,0.12)" stroke-width="1"/>
+      <line x1="120" y1="464" x2="960" y2="464" stroke="rgba(45,49,66,0.12)" stroke-width="1"/>
 
       <!-- L6 Business request -->
-      <rect x="120" y="80" width="840" height="64" fill="#2a2c30"/>
-      <line x1="120" y1="144" x2="960" y2="144" stroke="rgba(239,240,241,.12)" stroke-width="1"/>
-      <text x="140" y="116" fill="#9c9ea3" font-size="8" font-family="'Jost', system-ui, sans-serif" letter-spacing="0.14em">L6</text>
-      <text x="260" y="118" fill="#eff0f1" font-size="16" font-weight="600" font-family="'Jost', system-ui, sans-serif">Business request</text>
-      <text x="940" y="118" fill="#9c9ea3" font-size="10" font-family="'Jost', system-ui, sans-serif" text-anchor="end" letter-spacing="0.08em">HUMAN · plain language · any department</text>
+      <rect x="120" y="80" width="840" height="64" fill="#ffffff"/>
+      <line x1="120" y1="144" x2="960" y2="144" stroke="rgba(45,49,66,0.12)" stroke-width="1"/>
+      <text x="140" y="116" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.14em">L6</text>
+      <text x="260" y="118" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist', sans-serif">Business request</text>
+      <text x="940" y="118" fill="#4f5d75" font-size="10" font-family="'Geist Mono', monospace" text-anchor="end" letter-spacing="0.08em">HUMAN · plain language · any department</text>
 
       <!-- L5 AI engineering team -->
-      <rect x="120" y="144" width="840" height="64" fill="#18191b"/>
-      <line x1="120" y1="208" x2="960" y2="208" stroke="rgba(239,240,241,.12)" stroke-width="1"/>
-      <text x="140" y="180" fill="#9c9ea3" font-size="8" font-family="'Jost', system-ui, sans-serif" letter-spacing="0.14em">L5</text>
-      <text x="260" y="182" fill="#eff0f1" font-size="16" font-weight="600" font-family="'Jost', system-ui, sans-serif">AI engineering team</text>
-      <text x="940" y="182" fill="#9c9ea3" font-size="10" font-family="'Jost', system-ui, sans-serif" text-anchor="end" letter-spacing="0.08em">AI · lead agent + 14 specialist roles · model-agnostic</text>
+      <rect x="120" y="144" width="840" height="64" fill="#f5f5f5"/>
+      <line x1="120" y1="208" x2="960" y2="208" stroke="rgba(45,49,66,0.12)" stroke-width="1"/>
+      <text x="140" y="180" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.14em">L5</text>
+      <text x="260" y="182" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist', sans-serif">AI engineering team</text>
+      <text x="940" y="182" fill="#4f5d75" font-size="10" font-family="'Geist Mono', monospace" text-anchor="end" letter-spacing="0.08em">AI · lead agent + 14 specialist roles · model-agnostic</text>
 
       <!-- L4 Governed tool gateway (FOCAL) -->
-      <rect x="120" y="208" width="840" height="64" fill="rgba(255,74,31,.14)"/>
-      <rect x="120" y="208" width="840" height="64" fill="none" stroke="#ff4a1f" stroke-width="1"/>
-      <text x="140" y="244" fill="#ff4a1f" font-size="8" font-family="'Jost', system-ui, sans-serif" letter-spacing="0.14em" font-weight="600">L4</text>
-      <text x="260" y="246" fill="#eff0f1" font-size="16" font-weight="600" font-family="'Jost', system-ui, sans-serif">Governed tool gateway</text>
-      <text x="940" y="246" fill="#ff4a1f" font-size="10" font-family="'Jost', system-ui, sans-serif" text-anchor="end" letter-spacing="0.08em">HUMAN (IT) owns: permissions · gates · evidence · audit</text>
+      <rect x="120" y="208" width="840" height="64" fill="rgba(191,69,32,0.08)"/>
+      <rect x="120" y="208" width="840" height="64" fill="none" stroke="#bf4520" stroke-width="1"/>
+      <text x="140" y="244" fill="#bf4520" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.14em" font-weight="600">L4</text>
+      <text x="260" y="246" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist', sans-serif">Governed tool gateway</text>
+      <text x="940" y="246" fill="#bf4520" font-size="10" font-family="'Geist Mono', monospace" text-anchor="end" letter-spacing="0.08em">HUMAN (IT) owns: permissions · gates · evidence · audit</text>
 
       <!-- L3 Development platforms -->
-      <rect x="120" y="272" width="840" height="64" fill="#222427"/>
-      <line x1="120" y1="336" x2="960" y2="336" stroke="rgba(239,240,241,.12)" stroke-width="1"/>
-      <text x="140" y="308" fill="#9c9ea3" font-size="8" font-family="'Jost', system-ui, sans-serif" letter-spacing="0.14em">L3</text>
-      <text x="260" y="310" fill="#eff0f1" font-size="16" font-weight="600" font-family="'Jost', system-ui, sans-serif">Development platforms</text>
-      <text x="940" y="310" fill="#9c9ea3" font-size="10" font-family="'Jost', system-ui, sans-serif" text-anchor="end" letter-spacing="0.08em">low-code platform · native code · hybrid</text>
+      <rect x="120" y="272" width="840" height="64" fill="#ececec"/>
+      <line x1="120" y1="336" x2="960" y2="336" stroke="rgba(45,49,66,0.12)" stroke-width="1"/>
+      <text x="140" y="308" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.14em">L3</text>
+      <text x="260" y="310" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist', sans-serif">Development platforms</text>
+      <text x="940" y="310" fill="#4f5d75" font-size="10" font-family="'Geist Mono', monospace" text-anchor="end" letter-spacing="0.08em">low-code platform · native code · hybrid</text>
 
       <!-- L2 Runtime -->
-      <rect x="120" y="336" width="840" height="64" fill="#222427"/>
-      <line x1="120" y1="400" x2="960" y2="400" stroke="rgba(239,240,241,.12)" stroke-width="1"/>
-      <text x="140" y="372" fill="#9c9ea3" font-size="8" font-family="'Jost', system-ui, sans-serif" letter-spacing="0.14em">L2</text>
-      <text x="260" y="374" fill="#eff0f1" font-size="16" font-weight="600" font-family="'Jost', system-ui, sans-serif">Runtime &amp; hosting</text>
-      <text x="940" y="374" fill="#9c9ea3" font-size="10" font-family="'Jost', system-ui, sans-serif" text-anchor="end" letter-spacing="0.08em">Kubernetes · VMs · self-hosted · private or public cloud</text>
+      <rect x="120" y="336" width="840" height="64" fill="#ececec"/>
+      <line x1="120" y1="400" x2="960" y2="400" stroke="rgba(45,49,66,0.12)" stroke-width="1"/>
+      <text x="140" y="372" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.14em">L2</text>
+      <text x="260" y="374" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist', sans-serif">Runtime &amp; hosting</text>
+      <text x="940" y="374" fill="#4f5d75" font-size="10" font-family="'Geist Mono', monospace" text-anchor="end" letter-spacing="0.08em">Kubernetes · VMs · self-hosted · private or public cloud</text>
 
       <!-- L1 Enterprise systems -->
-      <rect x="120" y="400" width="840" height="64" fill="#222427"/>
-      <text x="140" y="436" fill="#9c9ea3" font-size="8" font-family="'Jost', system-ui, sans-serif" letter-spacing="0.14em">L1</text>
-      <text x="260" y="438" fill="#eff0f1" font-size="16" font-weight="600" font-family="'Jost', system-ui, sans-serif">Enterprise engineering systems</text>
-      <text x="940" y="438" fill="#9c9ea3" font-size="10" font-family="'Jost', system-ui, sans-serif" text-anchor="end" letter-spacing="0.08em">Git · Jira · CI/CD · scanners · IdP · monitoring</text>
+      <rect x="120" y="400" width="840" height="64" fill="#ececec"/>
+      <text x="140" y="436" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.14em">L1</text>
+      <text x="260" y="438" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist', sans-serif">Enterprise engineering systems</text>
+      <text x="940" y="438" fill="#4f5d75" font-size="10" font-family="'Geist Mono', monospace" text-anchor="end" letter-spacing="0.08em">Git · Jira · CI/CD · scanners · IdP · monitoring</text>
 
-      <text x="120" y="516" fill="#9c9ea3" font-size="8" font-family="'Jost', system-ui, sans-serif" letter-spacing="0.18em">FOCAL LAYER</text>
-      <text x="240" y="516" fill="#9c9ea3" font-size="8.5" font-family="'Jost', system-ui, sans-serif" font-style="italic">Everything below the gateway is a connector, not a dependency: swap one low-code platform for another, Kubernetes for a VM, one Git host for another, and the governance above does not change.</text>
-    </svg></div>
-    <div class="panel conn" data-ui><div class="panel-h"><span>Connector · Source control</span><span class="muted">permissions by role</span></div>
-      <table><thead><tr><th>Operation</th><th>Developer agents</th><th>Reviewer</th><th>Release pipeline</th></tr></thead><tbody>
-      <tr><td>branch.create</td><td class="ok">allowed</td><td>·</td><td>·</td></tr>
-      <tr><td>pr.create</td><td class="ok">allowed</td><td>·</td><td>·</td></tr>
-      <tr><td>pr.review</td><td>·</td><td class="ok">allowed</td><td>·</td></tr>
-      <tr><td>pr.merge</td><td class="no">denied</td><td class="no">denied</td><td class="ok">after G5, by policy</td></tr>
-      <tr><td>deploy.prod</td><td class="no">denied</td><td class="no">denied</td><td class="ok">with G7 reference</td></tr>
-      </tbody></table></div></div></div>
+      <text x="120" y="516" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.18em">FOCAL LAYER</text>
+      <text x="240" y="516" fill="#4f5d75" font-size="8.5" font-family="'Geist', sans-serif" font-style="italic">Everything below the gateway is a connector, not a dependency: swap one low-code platform for another, Kubernetes for a VM, one Git host for another, and the governance above does not change.</text>
+    </svg><span class="cap">Layer stack · diagram-design</span></div>
+  </div>
 </section>
-<footer class="foot"><span>AI Software Factory · briefing for the IT director · all data on this page is simulated · diagrams by diagram-design and Archify</span></footer>
 
+</div>
+<div class="hint">← → or space to navigate · simulated prototype data</div>
+<div class="nav"><button id="prev">Prev</button><div class="dots"><i class="on"></i><i></i><i></i></div><button id="next">Next</button></div>
 <script>
-(function(){
-  // entrances
-  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.15});
-  document.querySelectorAll('[data-rise]').forEach(function(el){io.observe(el)});
-  // keyboard: arrows move between screens
-  var screens=[].slice.call(document.querySelectorAll('.screen'));
-  function cur(){var y=window.scrollY+10;var i=0;screens.forEach(function(s,k){if(s.offsetTop<=y)i=k});return i}
-  document.addEventListener('keydown',function(e){var k=e.key;if(k==='ArrowRight'||k==='ArrowDown'||k===' '||k==='PageDown'){e.preventDefault();var n=Math.min(screens.length-1,cur()+1);screens[n].scrollIntoView({behavior:'smooth'})}if(k==='ArrowLeft'||k==='ArrowUp'||k==='PageUp'){e.preventDefault();var p=Math.max(0,cur()-1);screens[p].scrollIntoView({behavior:'smooth'})}});
-  // the live thing: decisions change the team's channel
-  var chat=document.getElementById('chat');
-  function say(name,role,color,text){var d=document.createElement('div');d.className='row new';var t=new Date();var hh=('0'+t.getHours()).slice(-2)+':'+('0'+t.getMinutes()).slice(-2);
-    d.innerHTML='<span class="av" style="background:'+color+'"></span><div><p class="who"><strong>'+name+'</strong> <span class="role">'+role+'</span> <span class="chip ai">AI</span></p><p class="msg">'+text+'</p></div><span class="ts nums">'+hh+'</span>';
-    chat.insertBefore(d,chat.firstChild);chat.scrollTop=0;setTimeout(function(){d.classList.remove('new')},2500)}
-  function resolve(id,cls,text){var g=document.getElementById(id);g.classList.remove('pend');g.classList.add(cls,'resolved');g.querySelector('span').textContent=text}
-  document.getElementById('gates').addEventListener('click',function(e){var b=e.target.closest('button[data-act]');if(!b)return;var a=b.dataset.act;
-    if(a==='ex-ok'){resolve('gx','done','Approved by you · WAF compensating control · expires 2027-01-31');say('Security','Threat model, scans','#d85454','EX-01 approved by the risk owner. F-103 marked excepted with expiry 2027-01-31; remediation work item EOB-40 opened.')}
-    if(a==='ex-no'){resolve('gx','deny','Rejected by you · finding must be fixed before release');say('Developer 2','Backend','#3b8fb8','Exception rejected. Adding rate limiting to the export endpoint; PR #17 will re-enter CI.')}
-    if(a==='g7-ok'){if(document.getElementById('gx').classList.contains('pend')){say('Release Manager','Release','#b08a4c','Authorization received, but exception EX-01 is still undecided. The gate stays closed until the risk owner responds.');return}
-      resolve('g7','done','Authorized by you · reference REL-AUTH-'+Math.random().toString(16).slice(2,6));say('DevOps','Platform','#3fb0a0','Deploying 1.0.0 to production inside the release pipeline with your authorization reference. Blue/green switch in progress.');setTimeout(function(){say('SRE','Operations','#7a93ab','Health green. P95 640 ms, error rate 0.02%, SLOs met. Release evidence archived.')},1800)}
-    if(a==='g7-no'){resolve('g7','deny','Rejected by you · release returns to readiness');say('Release Manager','Release','#b08a4c','Release 1.0.0 rejected by the Change Advisory Board. Returning to release readiness; nothing was deployed.')}
-  });
-})();
+(function(){var s=document.querySelectorAll('.slide'),d=document.querySelectorAll('.dots i'),i=0;
+function go(n){i=(n+s.length)%s.length;s.forEach(function(e,k){e.classList.toggle('active',k===i)});d.forEach(function(e,k){e.classList.toggle('on',k===i)});location.hash='slide-'+(i+1);}
+document.getElementById('prev').onclick=function(){go(i-1)};document.getElementById('next').onclick=function(){go(i+1)};
+document.addEventListener('keydown',function(e){if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){e.preventDefault();go(i+1)}if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();go(i-1)}});
+function fromHash(){var m=location.hash.match(/slide-(\d)/);if(m&&(+m[1]-1)!==i)go(+m[1]-1);}window.addEventListener('hashchange',fromHash);fromHash();})();
 </script>
 </body></html>
